@@ -1,2 +1,2 @@
-# directus_exploration
-Exploration of directus
+# Directus Exploration!
+This is a start up project of exploring of directus
