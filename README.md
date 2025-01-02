@@ -28,9 +28,9 @@ cd directus_exploration
 2. Install dependencies:
 ```
 npm install
-
-# Or, if you are using yarn:
-
+```
+Or, if you are using yarn:
+```
 yarn install
 ```
 
@@ -63,9 +63,9 @@ docker compose up --build -d
 To start the development server, run:
 ```
 npm run dev
-
-# Or with yarn:
-
+```
+Or with yarn:
+```
 yarn dev
 ```
 Visit http://localhost:3000 in your browser to see the project in action.
