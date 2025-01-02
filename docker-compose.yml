@@ -1,0 +1,41 @@
+services:
+  database:
+    image: postgis/postgis:13-master
+    platform: linux/amd64 # Required for Apple M1/M2
+    volumes:
+      - ./directus/database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD", "pg_isready", "--host=127.0.0.1", "--username=${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    ports:
+      - 5433:5432
+
+  directus:
+    image: directus/directus:11.3.5
+    ports:
+      - 8055:8055
+    volumes:
+      - ./directus/uploads:/directus/uploads
+      - ./directus/extensions:/directus/extensions
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      SECRET: ${SECRET_KEY}
+      DB_CLIENT: ${DB_CLIENT}
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    env_file:
+      - .env
